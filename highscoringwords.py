@@ -1,5 +1,7 @@
 __author__ = 'codesse'
 
+from collections import Counter
+
 
 class HighScoringWords:
     MAX_LEADERBOARD_LENGTH = 100  # the maximum number of items that can appear in the leaderboard
@@ -16,7 +18,7 @@ class HighScoringWords:
         """
         with open(validwords) as f:
             self.valid_words = f.read().splitlines()
-        self.valid_words = set(self.valid_words)
+        self.valid_words_set = set(self.valid_words)
 
         with open(lettervalues) as f:
             for line in f:
@@ -30,10 +32,27 @@ class HighScoringWords:
         :return: res: integer with the score of the string in the Scrabble Game
         :raises: KeyError if the word is not valid (i.e. not in the wordlist)
         """
-        if word.lower() not in self.valid_words:
+        if word.lower() not in self.valid_words_set:
             raise KeyError('Word not in valid wordlist.')
         res = sum([self.letter_values[char.lower()] for char in word])
         return res
+
+    def is_subset(self, superset, subset):
+        """
+        Return
+        :param superset: Dictionary
+        :param subset: Dictionary
+        :return: boolean where True when subset is in superset and False when subset is not in superset
+        """
+        if not set(superset.keys()).issuperset(set(subset.keys())):
+            return False
+        for key in subset:
+            if subset[key] > superset[key]:
+                return False
+        return True
+
+    def sorted_tuples(self, word_score_dict):
+        return sorted(word_score_dict.items(), key=lambda item: (-item[1], item[0]))
 
     def build_leaderboard_for_word_list(self):
         """
@@ -41,11 +60,11 @@ class HighScoringWords:
         :return: The list of top words.
         """
         output_dict = {}
-        for word in self.valid_words:
-            output_dict[word] = self.score(word)
-        sorted_tuples = sorted(output_dict.items(), key=lambda item: (-item[1], item[0]))[:100]
+        for word in self.valid_words_set:
+            if len(word) >= self.MIN_WORD_LENGTH:
+                output_dict[word] = self.score(word)
+        sorted_tuples = self.sorted_tuples(output_dict)[:self.MAX_LEADERBOARD_LENGTH]
         return list(zip(*sorted_tuples))[0]
-
 
     def build_leaderboard_for_letters(self, starting_letters):
         """
@@ -56,3 +75,10 @@ class HighScoringWords:
         :param starting_letters: a random string of letters from which to build words that are valid against the contents of the wordlist.txt file
         :return: The list of top buildable words.
         """
+        available = Counter(starting_letters)
+        output_dict = {}
+        for word in self.valid_words_set:
+            if len(word) >= self.MIN_WORD_LENGTH and self.is_subset(available, Counter(word)):
+                output_dict[word] = self.score(word)
+        sorted_tuples = self.sorted_tuples(output_dict)[:self.MAX_LEADERBOARD_LENGTH]
+        return list(zip(*sorted_tuples))

@@ -14,13 +14,13 @@ mmm
 nnn
 ooo
 ppp
-qqq
+q
 rrr
 sss
 ttt
 uuu
 vvv
 www
-xxx
+x
 yyy
 zzz

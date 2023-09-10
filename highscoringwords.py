@@ -81,4 +81,4 @@ class HighScoringWords:
             if len(word) >= self.MIN_WORD_LENGTH and self.is_subset(available, Counter(word)):
                 output_dict[word] = self.score(word)
         sorted_tuples = self.sorted_tuples(output_dict)[:self.MAX_LEADERBOARD_LENGTH]
-        return list(zip(*sorted_tuples))
+        return list(zip(*sorted_tuples))[0]

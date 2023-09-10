@@ -66,9 +66,10 @@ def test_is_subset(superset_dict, subset_dict, expected):
 
 @pytest.mark.parametrize("src_mod, string_letter",
                          [(scorer('src'), 'deora'),
-                          (scorer('src'), 'taxes')
+                          (scorer('src'), 'taxes'),
+                          (scorer('src'), 'cabs')
                           ],
-                         ids=['deora', 'taxes']
+                         ids=['deora', 'taxes', 'cabs']
                          )
 def test_build_leaderboard_for_letters(src_mod, string_letter, data_regression):
     data_regression.check(src_mod.build_leaderboard_for_letters(string_letter))

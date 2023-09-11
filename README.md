@@ -71,11 +71,11 @@ Below we see the coverage of testing done
 ```
 Name                                                                 Stmts   Miss  Cover
 ----------------------------------------------------------------------------------------
-/home/yjthay/unladen_swallow/highscoringwords.py                        44      0   100%
+/home/yjthay/unladen_swallow/highscoringwords.py                        58      0   100%
 __init__.py                                                              0      0   100%
 test_highscoringwords.py                                                32      0   100%
 ----------------------------------------------------------------------------------------
-TOTAL                                                                   76      0   100%
+TOTAL                                                                   90      0   100%
 ```
 
 The below folder shows the generated HTML reports after run_tests.py has been executed and provides a view of specific

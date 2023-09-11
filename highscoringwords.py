@@ -2,6 +2,9 @@ __author__ = 'codesse'
 
 from collections import Counter
 from typing import List, Dict, Tuple
+import logging
+
+WordScoreDict = Dict[str, int]
 
 
 class HighScoringWords:
@@ -16,6 +19,7 @@ class HighScoringWords:
         :param validwords: a text file containing the complete set of valid words, one word per line
         :param lettervalues: a text file containing the score for each letter in the format letter:score one per line
         """
+        self.valid_words_fname = validwords
         with open(validwords) as f:
             self.valid_words = f.read().splitlines()
         self.valid_words_set = set(self.valid_words)
@@ -55,7 +59,7 @@ class HighScoringWords:
         return True
 
     @staticmethod
-    def sorted_tuples(word_score_dict: Dict[str, int]) -> List[Tuple[str, int]]:
+    def sorted_tuples(word_score_dict: WordScoreDict) -> List[Tuple[str, int]]:
         """
         Sort the dictionary to give output in the right order (descending by value then ascending by word)
         :param word_score_dict: Dictionary of string as key and integers as values where score of each words
@@ -71,9 +75,14 @@ class HighScoringWords:
         :return: The list of top words.
         """
         output_dict = {}
+        logging.info(f'Running build_leaderboard_for_word_list on {self.valid_words_fname}')
         for word in self.valid_words_set:
             if len(word) >= self.MIN_WORD_LENGTH:
-                output_dict[word] = self.score(word)
+                score = self.score(word)
+                output_dict[word] = score
+                logging.debug(f'{word} added to the leaderboard with a score of {score}')
+            else:
+                logging.debug(f'{word} is less than minimum word length')
         sorted_tuples = self.sorted_tuples(output_dict)[:self.MAX_LEADERBOARD_LENGTH]
         return list(zip(*sorted_tuples))[0]
 
@@ -88,8 +97,13 @@ class HighScoringWords:
         """
         available = Counter(starting_letters)
         output_dict = {}
+        logging.info(f'Running build_leaderboard_for_letters on "{starting_letters}"')
         for word in self.valid_words_set:
             if len(word) >= self.MIN_WORD_LENGTH and self.is_subset(available, Counter(word)):
-                output_dict[word] = self.score(word)
+                score = self.score(word)
+                output_dict[word] = score
+                logging.debug(f'{word} added to the leaderboard with a score of {score}')
+            else:
+                logging.debug(f'{word} is less than minimum word length')
         sorted_tuples = self.sorted_tuples(output_dict)[:self.MAX_LEADERBOARD_LENGTH]
         return list(zip(*sorted_tuples))[0]

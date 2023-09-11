@@ -45,6 +45,8 @@ Arguments available for main.py
 -i, --input     : input file name (default to files/input.txt but unused if -l/--letters provided)
 -o, --output    : output file name (default to files/output.txt)
 -l, --letters   : If argument not provided, we will be running 𝙗𝙪𝙞𝙡𝙙_𝙡𝙚𝙖𝙙𝙚𝙧𝙗𝙤𝙖𝙧𝙙_𝙛𝙤𝙧_𝙬𝙤𝙧𝙙_𝙡𝙞𝙨𝙩 instead of 𝙗𝙪𝙞𝙡𝙙_𝙡𝙚𝙖𝙙𝙚𝙧𝙗𝙤𝙖𝙧𝙙_𝙛𝙤𝙧_𝙡𝙚𝙩𝙩𝙚𝙧𝙨
+-d, --debug     : debug where logging.debug comments will be printed
+-v, --verbose   : info where logging.info comments will be printed
 ```
 
 ## Testing and Coverage

@@ -1,6 +1,7 @@
 import argparse
 from highscoringwords import HighScoringWords
 import time
+import logging
 
 
 def solution(is_letters, input_file, output_file):
@@ -32,7 +33,7 @@ def argparse_main():
                         type=bool)
     parser.add_argument('-i', '--input',
                         action='store',
-                        help="Text file containing string letter for Scrabble game",
+                        help="Text file containing alphabets for Scrabble game",
                         dest="input_file",
                         default='files/input.txt')
     parser.add_argument('-o', '--output',
@@ -40,29 +41,27 @@ def argparse_main():
                         help="Text file containing STDOUT for Scrabble game",
                         dest="output_file",
                         default='files/output.txt')
-
-    # parser.add_argument('-d', '--debug',
-    #                     action='store',
-    #                     help="Log DEBUG level output",
-    #                     action="store_const", dest="loglevel", const=logging.DEBUG,
-    #                     default=logging.WARNING,
-    #                     )
-    # parser.add_argument('-v', '--verbose',
-    #                     action='store',
-    #                     help="Log INFO level output",
-    #                     action="store_const", dest="loglevel", const=logging.INFO,
-    #                     )
-    # logging.basicConfig(format="%(asctime)s %(levelname)s:%(name)s: %(message)s",
-    #                     level=parser.parse_args().loglevel,
-    #                     datefmt="%H:%M:%S",
-    #                     )
+    parser.add_argument('-d', '--debug',
+                        help="Log DEBUG level output",
+                        action="store_const", dest="loglevel", const=logging.DEBUG,
+                        default=logging.WARNING,
+                        )
+    parser.add_argument('-v', '--verbose',
+                        help="Log INFO level output",
+                        action="store_const", dest="loglevel", const=logging.INFO,
+                        )
+    logging.basicConfig(format="%(asctime)s %(levelname)s:%(name)s: %(message)s",
+                        level=parser.parse_args().loglevel,
+                        datefmt="%H:%M:%S",
+                        )
 
     args = parser.parse_args()
     start = time.perf_counter()
     output = solution(is_letters=args.is_letters, input_file=args.input_file, output_file=args.output_file)
     end = time.perf_counter()
     nl = '\n'
-    print(f'The top {len(output)} words on the leaderboard are {nl}{nl.join(output)} \nand the leaderboard is generated in {end - start:.4f} seconds')
+    print(f'The top {len(output)} words on the leaderboard are {nl}{nl.join(output)} \nand the leaderboard is '
+          f'generated in {end - start:.4f} seconds')
 
 
 if __name__ == "__main__":

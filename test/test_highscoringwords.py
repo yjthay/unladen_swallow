@@ -33,7 +33,9 @@ def test_score(word, src_mod, score):
                           ('queeer', scorer('src')),
                           ('CABBBAGE', scorer('src')),
                           ('ABBAcUs', scorer('src')),
-                          ('QuEeEr', scorer('src'))
+                          ('QuEeEr', scorer('src')),
+                          ('!:^&**"£$&*(*&^%', scorer('src')),
+                          ('\n        ', scorer('src'))
                           ]
                          )
 def test_invalid_score(word, src_mod):

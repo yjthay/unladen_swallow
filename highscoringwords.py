@@ -104,6 +104,6 @@ class HighScoringWords:
                 output_dict[word] = score
                 logging.debug(f'{word} added to the leaderboard with a score of {score}')
             else:
-                logging.debug(f'{word} is less than minimum word length')
+                logging.debug(f'{word} is not a subset of {starting_letters} or less than minimum word length')
         sorted_tuples = self.sorted_tuples(output_dict)[:self.MAX_LEADERBOARD_LENGTH]
         return list(zip(*sorted_tuples))[0]
